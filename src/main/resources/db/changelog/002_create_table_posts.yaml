@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: se_nata
+      changes:
+        - createTable:
+            tableName: posts
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: text
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: image
+                  type: BLOB
+                  constraints:
+                    nullable: true
+              - column:
+                  name: userid
+                  type: BIGINT
+                  constraints:
+                    nullable: false

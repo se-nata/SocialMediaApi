@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: se_nata
+      changes:
+        - createTable:
+            tableName: invitation
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: from
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: to
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: TINYINT
+

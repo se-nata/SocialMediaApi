@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: se_nata
+      changes:
+        - createTable:
+            tableName: friendships
+            columns:
+              - column:
+                  name: userid
+                  type: BIGINT
+              - column:
+                  name: friendid
+                  type: BIGINT
