@@ -1,6 +1,7 @@
 package senata.socialmediaapi.controllers;
 
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -74,7 +75,7 @@ public class AuthController {
         }
     }
     @PostMapping("/register")
-    public ResponseEntity <?> registerUser(@RequestBody UserDTO user){
+    public ResponseEntity <?> registerUser(@Valid @RequestBody UserDTO user){
         System.out.println("Hello   "+user.getUsername()+user.getPassword()+user.getEmail());
         userServiceImpl.registerUser(user.getUsername(), user.getPassword(), user.getEmail());
        return ResponseEntity.ok("User registered successfully");

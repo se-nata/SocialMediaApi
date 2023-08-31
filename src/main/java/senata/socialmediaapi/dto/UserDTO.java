@@ -1,9 +1,14 @@
 package senata.socialmediaapi.dto;
 
+import jakarta.validation.Valid;
+
 public class UserDTO {
     private  Long id;
+    @Valid
     private String username;
+    @Valid
     private String email;
+    @Valid
     private String password;
 
     public Long getId() {
