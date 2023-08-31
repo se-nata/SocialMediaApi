@@ -19,13 +19,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: email
+                  name: password
                   type: varchar(50)
                   constraints:
                     unique: true
                     nullable: false
               - column:
-                  name: password
+                  name: email
                   type: varchar(50)
                   constraints:
                     unique: true

@@ -111,7 +111,7 @@ return  null;
         UserDTO userDto = new UserDTO();
         userDto.setId(post.getUser().getId());
         userDto.setUsername(post.getUser().getUsername());
-        userDto.setMail(post.getUser().getEmail());
+        userDto.setEmail(post.getUser().getEmail());
 
         postDto.setUser(userDto);
 

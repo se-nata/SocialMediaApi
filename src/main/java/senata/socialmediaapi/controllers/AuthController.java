@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import senata.socialmediaapi.dto.PostsDTO;
+import senata.socialmediaapi.dto.UserDTO;
 import senata.socialmediaapi.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import senata.socialmediaapi.component.JwtTokenUtil;
@@ -73,7 +74,8 @@ public class AuthController {
         }
     }
     @PostMapping("/register")
-    public ResponseEntity <?> registerUser(@RequestBody User user){
+    public ResponseEntity <?> registerUser(@RequestBody UserDTO user){
+        System.out.println("Hello   "+user.getUsername()+user.getPassword()+user.getEmail());
         userServiceImpl.registerUser(user.getUsername(), user.getPassword(), user.getEmail());
        return ResponseEntity.ok("User registered successfully");
     }

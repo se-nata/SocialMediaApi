@@ -27,11 +27,11 @@ public class UserServiceImpl implements UserDetailsService {
         this.bryptPasswordEncoder = bryptPasswordEncoder;
     }
 
-    public void registerUser(String username, String email, String password) {
+    public void registerUser(String username, String password, String email) {
         User user = new User();
         user.setUsername(username);
-        user.setEmail(email);
         user.setPassword(bryptPasswordEncoder.encode(password));
+        user.setEmail(email);
         userRepository.save(user);
     }
     @Override

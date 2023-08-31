@@ -3,7 +3,7 @@ package senata.socialmediaapi.dto;
 public class UserDTO {
     private  Long id;
     private String username;
-    private String mail;
+    private String email;
     private String password;
 
     public Long getId() {
@@ -22,12 +22,12 @@ public class UserDTO {
         this.username = username;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
