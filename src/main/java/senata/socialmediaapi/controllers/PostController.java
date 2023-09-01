@@ -1,5 +1,6 @@
 package senata.socialmediaapi.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,8 @@ import senata.socialmediaapi.securety.UserServiceImpl;
 import senata.socialmediaapi.sevice.PostService;
 import senata.socialmediaapi.entity.User;
 
-@RestController("api/posts")
+@RestController
+@RequestMapping("/api/post")
 public class PostController {
     @Autowired
     private UserServiceImpl userService;
@@ -24,13 +26,15 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping
-    public ResponseEntity<String> createPost(@PathVariable Posts post, Authentication authentication) {
+    @PostMapping("/create")
+    public ResponseEntity<String> createPost( @RequestBody Posts post, Authentication authentication) {
+        System.out.println("Заходит");
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not authorized to create a post.");
         }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.getUserByUsername(userDetails.getUsername());
+        System.out.println("Заходит2"+user.toString());
         post.setUser(user);
         postService.createPost(post);
         return ResponseEntity.ok("Post created successfully.");

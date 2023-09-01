@@ -1,6 +1,7 @@
 package senata.socialmediaapi.component;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,9 +18,15 @@ import java.io.IOException;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter{
+    @Autowired
     private UserServiceImpl  userServiceImpl;
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    public JwtTokenFilter(UserServiceImpl userServiceImpl, JwtTokenUtil jwtTokenUtil) {
+        this.userServiceImpl = userServiceImpl;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

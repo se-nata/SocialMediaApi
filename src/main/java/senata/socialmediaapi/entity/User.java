@@ -30,7 +30,7 @@ public class User implements UserDetails {
     @JoinTable(name="friendships",joinColumns = @JoinColumn(name = "userid"),inverseJoinColumns = @JoinColumn(name="friendid"))
     private Set<User> friends=new HashSet<>();
     @ManyToMany(mappedBy = "friends", fetch = FetchType.LAZY)
-    private Set<User> subscribers = new HashSet<>();
+    private Set<User> subscribers;
 
     public Set<User> getSubscribers() {
         return subscribers;

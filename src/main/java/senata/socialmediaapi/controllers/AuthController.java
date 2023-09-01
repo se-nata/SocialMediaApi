@@ -76,11 +76,10 @@ public class AuthController {
     }
     @PostMapping("/register")
     public ResponseEntity <?> registerUser(@Valid @RequestBody UserDTO user){
-        System.out.println("Hello   "+user.getUsername()+user.getPassword()+user.getEmail());
         userServiceImpl.registerUser(user.getUsername(), user.getPassword(), user.getEmail());
        return ResponseEntity.ok("User registered successfully");
     }
-    @GetMapping("/feed")
+    @GetMapping("/feed/{userid}")
     public ResponseEntity <List<PostsDTO>> getFeedForUser(@PathVariable ("userid")Long userid,
                                                           @RequestParam(defaultValue = "0") int page,
                                                           @RequestParam(defaultValue = "10")int pagesize){
