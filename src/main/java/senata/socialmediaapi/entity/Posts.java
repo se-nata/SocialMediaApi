@@ -64,6 +64,14 @@ private User user;
         this.user = user;
     }
 
+    public Posts(Long id, String title, String text, Blob image, User user) {
+        this.id = id;
+        this.title = title;
+        this.text = text;
+        this.image = image;
+        this.user = user;
+    }
+
     public Posts() {
     }
 }

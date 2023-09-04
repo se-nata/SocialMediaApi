@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/login").anonymous()
                         .requestMatchers("/api/register").anonymous()
                         .anyRequest().authenticated()
-                ).sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                ).sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 

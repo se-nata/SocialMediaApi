@@ -8,6 +8,7 @@ public class PostsDTO {
     private String title;
     private String text;
     private UserDTO user;
+    private Blob image;
 
     public UserDTO getUser() {
         return user;
@@ -25,7 +26,8 @@ public class PostsDTO {
         this.text = text;
     }
 
-    private Blob image;
+    public PostsDTO() {
+    }
 
     public Long getId() {
         return id;
