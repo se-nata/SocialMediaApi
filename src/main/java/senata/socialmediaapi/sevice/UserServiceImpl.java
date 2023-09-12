@@ -1,4 +1,4 @@
-package senata.socialmediaapi.securety;
+package senata.socialmediaapi.sevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,11 +36,11 @@ public class UserServiceImpl implements UserDetailsService {
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.getUserByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        return user;
     }
     public String login(String username, String password) {
         UserDetails userDetails = loadUserByUsername(username);
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
     public User getUserByUsername(String username) {
-        return userRepository.getUserByUsername(username);
+        return userRepository.findByUsername(username);
     }
     public Optional<User> getUserById(Long userId) {
         return userRepository.findById(userId);

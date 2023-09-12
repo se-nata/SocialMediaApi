@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import senata.socialmediaapi.entity.User;
 
 public interface UserRepository extends JpaRepository<User,Long> {
-    @Query("SELECT u FROM User u WHERE u.username=:username")
-    public User getUserByUsername(@Param("username")String username);
+
+    public User findByUsername(String username);
 }
 

@@ -4,10 +4,7 @@ import jakarta.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name ="users")
@@ -18,13 +15,13 @@ public class User implements UserDetails {
     @Column(name="username",nullable = false)
     @Size(min = 2,message = "Не меньше 2 знаков")
     private String username;
-    @Column(name="email",unique = true, nullable = false)
-    @Size(min = 5,message = "Не меньше 5 знаков")
-    private String email;
+
     @Column(name="password",nullable = false)
     @Size(min = 5,message = "Не меньше 5 знаков")
     private String password;
-
+    @Column(name="email",unique = true, nullable = false)
+    @Size(min = 5,message = "Не меньше 5 знаков")
+    private String email;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name="friendships",joinColumns = @JoinColumn(name = "userid"),inverseJoinColumns = @JoinColumn(name="friendid"))
@@ -94,6 +91,19 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, email);
     }
 
     @Override

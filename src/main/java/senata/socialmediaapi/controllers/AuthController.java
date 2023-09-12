@@ -15,7 +15,7 @@ import senata.socialmediaapi.dto.UserDTO;
 import senata.socialmediaapi.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import senata.socialmediaapi.component.JwtTokenUtil;
-import senata.socialmediaapi.securety.UserServiceImpl;
+import senata.socialmediaapi.sevice.UserServiceImpl;
 import senata.socialmediaapi.sevice.PostService;
 
 import java.util.HashMap;

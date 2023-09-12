@@ -21,14 +21,14 @@ public class InviteService {
     }
 
     public void sendRequest(User senderuser, User receiveruser) {
-        User sender = userRepository.getUserByUsername(senderuser.getUsername());
-        User receiver = userRepository.getUserByUsername(receiveruser.getUsername());
+        User sender = userRepository.findByUsername(senderuser.getUsername());
+        User receiver = userRepository.findByUsername(receiveruser.getUsername());
         if (senderuser == null || receiver == null) {
             throw new IllegalStateException("Sender or receiver does not exist");
         }
         Invite invite = new Invite();
-        invite.setFrom(sender);
-        invite.setTo(receiver);
+        invite.setSender(sender);
+        invite.setReceiver(receiver);
         invite.setStatus(InviteStatus.PENDING);
         sender.getSubscribers().add(receiver);
         userRepository.save(sender);
@@ -37,10 +37,10 @@ public class InviteService {
 
     public void acceptRequest(Long idinvite, User receiver) {
         Invite invate = inviteRepository.findById(idinvite).orElse(null);
-        if (invate == null || invate.getStatus() != InviteStatus.PENDING) {
+        if (invate == null || invate.getStatus() != InviteStatus.PENDING || !invate.getReceiver().equals(receiver)) {
             throw new IllegalStateException("Invalid request");
         }
-        User sender = invate.getFrom();
+        User sender = invate.getSender();
         receiver.getFriends().add(sender);
         sender.getFriends().add(receiver);
 
@@ -51,13 +51,14 @@ public class InviteService {
         inviteRepository.save(invate);
     }
 
-    public void rejectRequest(Long idinvate, String receiver) {
-        Invite invite = inviteRepository.findById(idinvate).orElse(null);
+    public void rejectRequest(Long idinvite, String receiver) {
+        Invite invite = inviteRepository.findById(idinvite).orElse(null);
         if (invite == null || invite.getStatus() != InviteStatus.PENDING) {
-            throw new IllegalStateException();
+            System.out.println(" getStatus(" + invite.getStatus().toString());
+            throw new IllegalStateException("Invalid request.");
         }
-        User username = userRepository.getUserByUsername(receiver);
-        if (!invite.getFrom().equals(username)) {
+        User username = userRepository.findByUsername(receiver);
+        if (!invite.getSender().equals(username)) {
             throw new IllegalStateException("You cannot reject this request");
         }
         invite.setStatus(InviteStatus.REJECTED);
@@ -76,7 +77,7 @@ public class InviteService {
     }
 
     public void cancelRequest(User sender, User receiver) {
-        Invite invite = inviteRepository.findByFromTo(sender, receiver);
+        Invite invite = inviteRepository.findBySenderAndReceiver(sender, receiver);
         if (invite == null || invite.getStatus() != InviteStatus.PENDING) {
             throw new IllegalStateException("Invalid friend request");
         }

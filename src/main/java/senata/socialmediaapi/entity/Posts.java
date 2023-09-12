@@ -1,5 +1,6 @@
 package senata.socialmediaapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.awt.Image;
@@ -17,12 +18,21 @@ public class Posts {
     private String title;
     @Column(name = "text",nullable = true)
     private String text;
+
     @Column(name = "image",nullable = true)
-    private Blob image;
+    private byte[] image;
 
 @ManyToOne
 @JoinColumn (name="userid")
 private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
@@ -48,29 +58,16 @@ private User user;
         this.text = text;
     }
 
-    public Blob getImage() {
+
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User username) {
-        this.user = user;
-    }
-
-    public Posts(Long id, String title, String text, Blob image, User user) {
-        this.id = id;
-        this.title = title;
-        this.text = text;
-        this.image = image;
-        this.user = user;
-    }
 
     public Posts() {
     }

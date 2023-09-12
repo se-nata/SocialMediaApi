@@ -1,6 +1,5 @@
 package senata.socialmediaapi.controllers;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import senata.socialmediaapi.dto.PostsDTO;
 import senata.socialmediaapi.entity.Posts;
-import senata.socialmediaapi.securety.UserServiceImpl;
+import senata.socialmediaapi.sevice.UserServiceImpl;
 import senata.socialmediaapi.sevice.PostService;
 import senata.socialmediaapi.entity.User;
 
@@ -26,22 +25,20 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<String> createPost( @RequestBody Posts post, Authentication authentication) {
-        System.out.println("Заходит");
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not authorized to create a post.");
         }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.getUserByUsername(userDetails.getUsername());
-        System.out.println("Заходит2"+user.toString());
         post.setUser(user);
         postService.createPost(post);
         return ResponseEntity.ok("Post created successfully.");
 
     }
 
-    @PutMapping("post/{idpost}")
+    @PutMapping("/{idpost}")
     public ResponseEntity<String> updatePost(@PathVariable("idpost") Long idpost, @RequestBody Posts updatePost, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not authorized.");
@@ -61,7 +58,7 @@ public class PostController {
         }
     }
 
-    @DeleteMapping("post/{idpost}")
+    @DeleteMapping("/{idpost}")
     public ResponseEntity<String> deletePost(@PathVariable("idpost") Long idpost, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not authorized to delete the post.");
@@ -81,7 +78,7 @@ public class PostController {
 
     }
 
-    @GetMapping("post/{idpost}")
+    @GetMapping("/{idpost}")
     public ResponseEntity<?> getPostbyId(@PathVariable("idpost") Long idpost, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not authorized to view the post.");

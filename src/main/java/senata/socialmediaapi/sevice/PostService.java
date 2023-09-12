@@ -32,6 +32,7 @@ public class PostService {
     }
 
     public  void createPost(Posts post){
+
         postsRepository.save(post);
     }
     public List<PostsDTO> getallUserPosts(Long userid){

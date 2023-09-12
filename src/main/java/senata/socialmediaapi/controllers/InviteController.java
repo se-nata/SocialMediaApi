@@ -5,8 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import senata.socialmediaapi.entity.Invite;
-import senata.socialmediaapi.securety.UserServiceImpl;
+import senata.socialmediaapi.sevice.UserServiceImpl;
 import senata.socialmediaapi.sevice.InviteService;
 import senata.socialmediaapi.entity.User;
 

@@ -10,12 +10,12 @@ public class Invite {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "from",nullable = false)
-    private  User from;
+    @JoinColumn (name = "sender",nullable = false)
+    private  User sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "to",nullable = false)
-    private  User to;
+    @JoinColumn (name = "receiver",nullable = false)
+    private  User receiver;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
@@ -29,20 +29,20 @@ public class Invite {
         this.id = id;
     }
 
-    public User getFrom() {
-        return from;
+    public User getSender() {
+        return sender;
     }
 
-    public void setFrom(User from) {
-        this.from = from;
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
-    public User getTo() {
-        return to;
+    public User getReceiver() {
+        return receiver;
     }
 
-    public void setTo(User to) {
-        this.to = to;
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 
     public InviteStatus getStatus() {

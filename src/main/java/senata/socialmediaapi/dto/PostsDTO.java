@@ -8,7 +8,7 @@ public class PostsDTO {
     private String title;
     private String text;
     private UserDTO user;
-    private Blob image;
+    private byte[] image;
 
     public UserDTO getUser() {
         return user;
@@ -45,11 +45,12 @@ public class PostsDTO {
         this.title = title;
     }
 
-    public Blob getImage() {
+
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 }

@@ -25,7 +25,7 @@ databaseChangeLog:
                     nullable: true
               - column:
                   name: image
-                  type: BLOB
+                  type: bytea
                   constraints:
                     nullable: true
               - column:
