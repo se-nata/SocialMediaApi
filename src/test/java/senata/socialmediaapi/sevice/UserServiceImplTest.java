@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import senata.socialmediaapi.component.JwtTokenUtil;
 import senata.socialmediaapi.repository.UserRepository;
 import senata.socialmediaapi.entity.User;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -49,14 +50,23 @@ class UserServiceImplTest {
     }
 
     @Test
-    void login() {
+    void get_User_By_Username() {
+        String username="Natasha";
+        User user = new User();
+        user.setUsername(username);
+        when(userRepository.findByUsername(username)).thenReturn(user);
+        userServiceImpl.getUserByUsername(username);
+        verify(userRepository,times(1)).findByUsername(username);
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test
-    void getUserByUsername() {
-    }
+    void get_User_By_Id() {
+        User user = new User();
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+        userServiceImpl.getUserById(anyLong());
+        verify(userRepository,times(1)).findById(anyLong());
+        verifyNoMoreInteractions(userRepository);
 
-    @Test
-    void getUserById() {
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import senata.socialmediaapi.component.JwtTokenUtil;
 import senata.socialmediaapi.repository.UserRepository;
 import senata.socialmediaapi.entity.User;
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -41,10 +40,6 @@ public class UserServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
         return user;
-    }
-    public String login(String username, String password) {
-        UserDetails userDetails = loadUserByUsername(username);
-        return jwtUtil.generateToken(userDetails);
     }
 
     public User getUserByUsername(String username) {

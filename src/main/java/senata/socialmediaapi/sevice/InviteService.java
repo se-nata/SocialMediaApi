@@ -23,7 +23,7 @@ public class InviteService {
     public void sendRequest(User senderuser, User receiveruser) {
         User sender = userRepository.findByUsername(senderuser.getUsername());
         User receiver = userRepository.findByUsername(receiveruser.getUsername());
-        if (senderuser == null || receiver == null) {
+        if (sender == null || receiver == null) {
             throw new IllegalStateException("Sender or receiver does not exist");
         }
         Invite invite = new Invite();

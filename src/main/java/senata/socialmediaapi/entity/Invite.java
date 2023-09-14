@@ -2,12 +2,16 @@ package senata.socialmediaapi.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name="invitation")
 public class Invite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "sender",nullable = false)
@@ -20,6 +24,18 @@ public class Invite {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
     private InviteStatus status;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Invite invite)) return false;
+        return Objects.equals(getSender(), invite.getSender()) && Objects.equals(getReceiver(), invite.getReceiver()) && getStatus() == invite.getStatus();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSender(), getReceiver(), getStatus());
+    }
 
     public Long getId() {
         return id;
