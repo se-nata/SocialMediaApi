@@ -1,9 +1,12 @@
 package senata.socialmediaapi.sevice;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import senata.socialmediaapi.entity.Invite;
 import senata.socialmediaapi.entity.InviteStatus;
+import senata.socialmediaapi.exceptions.InviteNotFoundException;
 import senata.socialmediaapi.repository.InviteRepository;
 import senata.socialmediaapi.entity.User;
 import senata.socialmediaapi.repository.UserRepository;
@@ -21,8 +24,8 @@ public class InviteService {
     }
 
     public void sendRequest(User senderuser, User receiveruser) {
-        User sender = userRepository.findByUsername(senderuser.getUsername());
-        User receiver = userRepository.findByUsername(receiveruser.getUsername());
+        User sender = userRepository.findByUsername(senderuser.getUsername()).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        User receiver = userRepository.findByUsername(receiveruser.getUsername()).orElseThrow(()-> new UsernameNotFoundException("User not found"));
         if (sender == null || receiver == null) {
             throw new IllegalStateException("Sender or receiver does not exist");
         }
@@ -36,29 +39,28 @@ public class InviteService {
     }
 
     public void acceptRequest(Long idinvite, User receiver) {
-        Invite invate = inviteRepository.findById(idinvite).orElse(null);
-        if (invate == null || invate.getStatus() != InviteStatus.PENDING || !invate.getReceiver().equals(receiver)) {
+        Invite invite = inviteRepository.findById(idinvite).orElse(null);
+        if (invite == null || invite.getStatus() != InviteStatus.PENDING || !invite.getReceiver().equals(receiver)) {
             throw new IllegalStateException("Invalid request");
         }
-        User sender = invate.getSender();
+        User sender = invite.getSender();
         receiver.getFriends().add(sender);
         sender.getFriends().add(receiver);
 
         userRepository.save(sender);
         userRepository.save(receiver);
 
-        invate.setStatus(InviteStatus.INFRIENDS);
-        inviteRepository.save(invate);
+        invite.setStatus(InviteStatus.INFRIENDS);
+        inviteRepository.save(invite);
     }
 
     public void rejectRequest(Long idinvite, String receiver) {
-        Invite invite = inviteRepository.findById(idinvite).orElse(null);
-        if (invite == null || invite.getStatus() != InviteStatus.PENDING) {
-            System.out.println(" getStatus(" + invite.getStatus().toString());
+        Invite invite = inviteRepository.findById(idinvite).orElseThrow(()->new InviteNotFoundException("Invite not found"));
+        if ( invite.getStatus() != InviteStatus.PENDING) {
             throw new IllegalStateException("Invalid request.");
         }
-        User username = userRepository.findByUsername(receiver);
-        if (!invite.getSender().equals(username)) {
+        User user= userRepository.findByUsername(receiver).orElseThrow(()->new UsernameNotFoundException("User not found"));
+        if (!invite.getSender().equals(user)) {
             throw new IllegalStateException("You cannot reject this request");
         }
         invite.setStatus(InviteStatus.REJECTED);
